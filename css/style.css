@@ -20,10 +20,10 @@ td {
 }
 
 .parallax-container {
-    min-height: 480px;
+    /*min-height: 480px;*/
     line-height: 0;
     height: auto;
-    color: rgba(255, 255, 255, .9);
+    color: rgba(0, 0, 0, .9);
 }
 
 .parallax-container .section {
