@@ -22,9 +22,9 @@ function BeamModelDemo(id, map, sensorRadius, sensorNoise, miniId)
 	this.sensorModel = new BeamModel(sensorNoise, sensorRadius, map);
 
 	//Initial robot pose
-	this.x = random() * this.sensorModel.width;
-	this.y = random() * this.sensorModel.height;
-	this.dir = random() * TWO_PI;
+	this.x = 0.5 * this.sensorModel.width;
+	this.y = 0.65 * this.sensorModel.height;
+	this.dir = 0;
 	this.view.recenter(this.x, this.y);
 
 	//cursor position in world
