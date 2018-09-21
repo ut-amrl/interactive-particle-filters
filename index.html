@@ -91,24 +91,14 @@
     <div class="row">
         <div class="col l12">
             <p>
-                Autonomous mobile robots need to know where they are, in order
-                to function correctly. An indoor service mobile robot navigating
-                between rooms in an office building needs to know which
-                corridor, and where along the corridor it is at, to compute how
-                far it needs to travel, and which turn to take next.
-                Indoor robots cannot reliably access GPS data to help with this,
-                and even when accessible, GPS data is not sufficiently accurate
-                for navigation indoors.
-                Thus, to reason more accurately about their locations in the world, mobile robots rely on
-                additional on-board sensors such as laser range-finders and depth cameras.
+            What would you do if you lost your way in a city while trying to navigate from one landmark to another? The obvious solution is to take out your phone and use the GPS system to find your way. But what if your phone was out of battery? Worse yet, what if you were indoors trying to find a particular room, and the GPS isn't able to give you sufficiently accurate instructions? With a map and some keen observation skills, you'd probably be able to find your way.
             </p>
+
             <p>
-                The problem of estimating where a robot is, given its on-board sensor readings over time, is called
-                <b>mobile robot localization</b>.
+            Just as how humans rely on knowing our location to find our way, autonomous robots require the same information in order to efficiently and correctly function. Tasks like path planning, or even as simple as finding the next turn, require detailed information on a robot's location. On the other hand, many autonomous robots (especially those operating indoors) rarely have access to sufficiently accurate GPS data - or any GPS data at all. Therefore, robots often utilize on-board sensors to observe the environment, like how we use our eyes to reason about our location. 
             </p>
-            <p>
-                In this page, we explain the sources of uncertainty for the problem of mobile robot localization, and
-                one popular algorithm for mobile robot localization, called <b>Monte-Carlo Localization</b>.
+            
+            <p>The problem of estimating where a robot is, given its on-board sensor readings over time, is called <b>mobile robot localization</b>. While the task may seem straightforward, there are many sources of potential errors that comes with using sensors, and researchers have developed many algorithms that aim to reduce uncertainty. In this page, we will explain two major sources of uncertainty - motion and sensors - in mobile robot localiztion problems, and a popular algorithm called <b>Monte-Carlo Localization</b> that addresses this issue. 
             </p>
         </div>
     </div>
@@ -120,11 +110,10 @@
         <div class="container">
             <div class="row">
                 <div class="col l12">
-                    <h4 style="color:black">Uncertainties in Robotics</h4>
-                    <p style="color:black">
-                        Robots, as physical entities acting in the real world, inherently suffer from errors in sensing,
-                        and locomotion. Such errors result in uncertainty of the robot’s estimates of its location. 
-                    </p>
+                    <h2 style="color:black">Sources of Uncertainty</h2>
+                    <!-- <p style="color:black">
+                        As physical objects in the real world, robots inherently suffer from errors in <b>locomotion</b> and <b>sensing</b>. In the following sections, we will discuss how these two sources of uncertainty affect robots' ability to accurately reason about its location.
+                    </p> -->
                 </div>
             </div>
         </div>
@@ -134,20 +123,16 @@
 <div class="container">
     <div class="row">
         <div class="col l12">
-            <h4>Uncertainty Arising From Motion</h4>
+            <h3>Uncertainty Arising From Motion</h3>
             <!--When we command robots to move forward and turn, it would be nice if robots can-->
             <!--carry out our commands with perfect precision. But in reality, they can't.-->
             <p>
-                Uncertainty in a robot’s motion arises from a large number of factors, including differences in wheel
-                diameter, tire inflation, friction with respect to the ground, and uneven terrain. Thus, even when asked
-                to execute the same command repeatedly, a robot will inevitably have errors in its actual execution.
-                This demo simulates the errors in execution of motion commands on a real world robot. The blue line
-                represents the planned motion, while the red line represents the robot's actual motion.
+                Uncertainty in a robot’s motion arises from a large number of factors, such as differences in wheel
+                diameter, tire inflation, friction with respect to the ground, and uneven terrain. This is why robots rarely follow their planned paths exactly - when asked to execute the same command repeatedly, a robot will inevitably have errors in its actual execution.
             </p>
 
             <p>
-                This demo simulates how real world robots follow commands. The blue line
-                represents planned motion while the red line represents robot's actual motion.
+                To illustrate this, the following demo simulates the errors in execution of motion commands on a real world robot. The blue line represents the planned motion, while the red line represents the robot's actual motion.
             </p>
         </div>
         <div class="col s6 offset-s3 center">
@@ -214,8 +199,7 @@
                 <div class="card-content">
                     <span class="card-title">E4</span>
                     <p>
-                        When the robot is commanded to rotate by a certain angle, the robot might, in addition to
-                        turning, skid sideways or forward. This type of error is significant on robots with tank treads
+                        When the robot is commanded to rotate by a certain angle, the robot might skid sideways or forward while turning. This type of error is particularly significant on robots with tank treads
                         and multiple wheels with skid-steering.
                     </p>
                 </div>
@@ -282,11 +266,10 @@
 
     <div class="row">
         <div class="col l12 s12">
-            <p>
+            <p> 
                 While the demos above simulated a single outcome of a robot at a time for each type of error, we can
                 also concurrently simulate many possible outcomes for the errors. The demos below simulate each of the
-                four types of errors in a robot’s motion over many possible outcomes simultaneously, to demonstrate the
-                range, and distribution, of the robot’s possible locations over time as affected by the different types
+                four types of errors in a robot’s motion over many possible outcomes simultaneously. Pay particular attention to the range and distribution of the robot’s possible locations over time as affected by the different types
                 of motion errors.
             </p>
         </div>
@@ -359,7 +342,7 @@
     </div>
     <div class="row">
         <div class="col s12">
-            Note how the errors accumulate over time: The possible outcomes of the robot spread apart, but in a
+            Note how the errors accumulate over time: The possible outcomes of the robot diverged, but in a
             different manner for each type of motion error.
         </div>
     </div>
@@ -457,12 +440,7 @@
     <div class="row">
         <div class="col l12 s12">
             <p>
-                Clearly, in order to effectively work in the real world, the robot cannot expect its true location to
-                match its planned path. However, we can see that we can simulate many possible outcomes for the robot’s
-                location over time: this will be crucial to our goal of performing mobile robot localization. While we
-                may not know exactly where the robot is after executing a motion command, we can simulate the
-                distribution of possible outcomes. This distribution of possible outcomes can then be further refined by
-                additionally taking into account observations from additional sensors.
+                This illustrates that robots cannot expect its true location to match its planned plath in order to work effectively. While there are many possible outcomes for the robot's location over time, it is still more likely to be in some location than others - this means that we can simulate the <b>distribution</b> of possible outcomes. This is important, as it sets the foundation for the localization algorithm we will discuss in a later section.  
             </p>
         </div>
     </div>
@@ -472,28 +450,14 @@
     <div class="row">
         <div class="col l12 s12">
             <h4>Sensor Limitations</h4>
-            <p>
-                To assist in the task of localization, a robot relies on observations made with its on board sensors,
-                and a known map of the environment. Laser range-finders are one type of commonly used sensors on mobile
-                robots. They allow the robot to sense how far obstacles are from the robot by measuring the time taken
-                for a laser beam to traverse from the sensor, to the obstacle, and back. The laser beam in a laser
-                range-finder is swept in a circular arc, thus allowing the robot to make distance measurements for a wide
-                angle around the robot. Laser range-finders have a maximum range beyond which they cannot sense objects,
-                and they also have a fixed number of angles they can sense along, and the overall angle over which they
-                can make observations.
+            <p> 
+                To reduce the uncertainty caused by motion, a robot would need more information about its surroundings than its theoretical path. This is where onboard sensors play a role in refining the distribution yielded from the last section by providing characteristics about its surroundings - for example, observing that the robot is right next to some solid object would make it less likely for the robot to be in the middle of an open room.
             </p>
             <p>
-                Each ray of the laser range-finder thus provides a measurement of the distance to the closest obstacle in
-                that direction. This measurement inherently has errors, due to the variations in the optical properties
-                of the obstacle, errors in time measurements from the electronics in the sensor, and dust particles in
-                the air. The demo below simulates multiple readings for a single ray of a laser range-finder, when the
-                actual distance to the obstacle is 10 meters. The demo graphs the distribution of the number of times
-                the sensor makes a particular observation. Note that the actual observations vary, and their
-                distribution is spread out, but the peak is centered around the true reading. The average over all the
-                observations, despite the noisy nature of the observations, tends towards the expected value. Try
-                changing the magnitude of the sensor noise, and the number of observations: note how the average sensor
-                reading more closely matches the true distance when the sensor noise is low, and when the number of
-                observations is high.
+                Let's use laser rangefinders, a common onboard sensor, as an example to illustrate the uncertainties in sensor readings. A laser rangefinders measures distances by calculating the time it takes for a laser beam to travel between the sensor (the <i>sender</i>) and any obstacles (the <i>receiver</i>). By sweeping along a circular arc, laser rangefinders are able to measure distances for a relatively wide angle around a robot. However, laser rangefinders also have limitations - they have a maximum range due to light dispersion, and can usually only measure at fixed angles. 
+            </p>
+            <p>
+                Much like locomotion, the measurements of laser rangefinders also carry errors of their own - for instance, variations in the optical properties of the obstacle, errors in time measurements from the electronics in the sensor, and even dust particles in the air. The demo below simulates multiple readings for a single ray of a laser rangefinder to an obstacle 10 meters away and graphs the frequency of corresponding readings. The red line denotes the expected value of 10 meters, and the numerical value in the top left hand corner is the average sensor value. Pay close attention to the relationship between the average and expected values, as well as the number of trials and expected value.
             </p>
         </div>
     </div>
@@ -536,12 +500,13 @@
     </div>
 
     <div class="row">
-        <div class="col l8 s12">
+        <div class="col l12 s12">
             <p>
-                Despite the errors in individual readings of the sensor, the average error over a large number of
-                readings tends to zero as the number of readings increases, and the distributions of the readings follow
-                a known pattern, modelled by a <a href="https://en.wikipedia.org/wiki/Normal_distribution">Normal
-                Distribution,</a>.
+                We can see that the average sensor reading more closely matches the true distance when the sensor noise is low, and when the number of observations is high. Despite the errors in individual readings of the sensor, the average error over a large number of readings tends to zero as the number of readings increases. Also note that the graph is shaped like a bell curve - in fact, the distributions of the readings follow a known pattern called the <a href="https://en.wikipedia.org/wiki/Normal_distribution">normal
+                distribution</a>.
+            </p>
+            <p>
+                The types of uncertainties exhibited with laser rangefinders isn't unique - other types of sensors and data, like camera images or ultrasonic sensors, all have their sources of error and uncertainty. 
             </p>
         </div>
     </div>
@@ -550,26 +515,10 @@
         <div class="col l12 s12">
             <h4>Simulating A Laser Rangefinder</h4>
             <p>
-                The robot's sensor model is responsible for reasoning about the likelihood of the
-                observation given the map.The readings might be an image taken from a camera, data returned by a
-                laser scanner, data gathered by ultrasonic sensors, etc. Whatever the data is,
-                sensor models are supposed to analysis them and give how likely they are in the positions in the map.
+                Given a map and sensor data, we then need to develop a <i>sensor model</i>. Our previous demos showed that sensors are inherently noisy, meaning that we can't rely solely on measurements to localize the robot. Therefore, instead of making a definite decision, a sensor model is responsible for analyzing sensor data and providing the likelihood of the observation given a map and the knowledge that sensor readings may not necessarily be accurate. 
             </p>
             <p>
-                Robot's sensors have noise, meaning that measurements are not
-                accurate. The robot's internal model must be aware of
-                this when estimating its location. <b>Click</b> to place the
-                robot, <b>hold and move</b> to change direction of robot. You
-                can also use the <b>Mini Map</b> on the right to move the area
-                of the map that you want to have a look at.
-            </p>
-            <p>
-                As it was mentioned before, the sensor model can only
-                calculate the likelihood of a robot in the environment. The sensor
-                model will calculate the <b>probability</b> of the robot at a
-                given position base on its sensor readings. Click <b>color the
-                map</b> to calculate the probability of the robot in the map
-                with density in pixels.
+                <b>Click</b> to place the robot, and <b>hold and move</b> to change the direction of the robot. You can also use the <b>mini ,ap</b> on the right to move the map itelf. To look at the computed probability that the robot is located at a particular pixel, click on <b>color the map</b>.
             </p>
         </div>
     </div>
@@ -642,14 +591,13 @@
 </div>
 
 <div class="container">
-    <div class="row"><h3>Monte Carlo Localization</h3></div>
+    <div class="row"><h2>Monte Carlo Localization</h2></div>
     <div class="row">
         <div class="col lg 8">
             <p>
-                Given that all actuators and sensors have some degrees of noise, how should we use
-                these actuators and sensors? Over time, people have developed algorithms and
-                mathematical models to take these uncertainties into account. <b>Monte Carlo
-                Localization (MCL)</b> is an example of such algorithms.
+                Given that all sensors - and robot movement itself - have some degree of uncertainty, how do we ensure that localization is consistent and robust? Over time, people have developed algorithms and
+                mathematical models to take these uncertainties into account - <b>Monte Carlo
+                Localization (MCL)</b> being one of them.
             </p>
             <p>
                 The MCL algorithm can be applied to robots with the following conditions
@@ -658,48 +606,46 @@
                 <li>The robot is in a <b>known area</b>, which means the robot has the map of the
                     environment.
                 </li>
-                <li>The robot has some kinds of <b>sensors</b>.</li>
+                <li>The robot has <b>sensors</b>, no matter the form.</li>
                 <li>The robot can <b>move around</b> freely.</li>
             </ul>
             <p>
                 The MCL algorithms works by maintaining many possible locations of the robot. As the
                 robot moves and senses, MCL incorporates additional information gathered and updates
                 each of its possible locations. The possible locations that seem to be consistent
-                with the robot's motion and measurement data will be kept, vice versa.
+                with the robot's motion and measurement data will be kept, and vice versa.
             </p>
             <p>
-                Each guess(also called hypothesis) is represented by a "particle" consists of
-                location(such as x, y coordinates) of the robot and direction it's facing. Each
-                particle is also associated with a weight, which represents how likely the particle
-                represents the robot's true location(and direction).
+                Each guess (or <i>hypothesis</i>) is represented by a "particle" consisting of
+                location data (for instance in the form of Cartesian coordinates) of the robot, as well as its direction. Each
+                particle is also associated with a weight, which represents the likelihood that the particle
+                represents the robot's true location and direction. 
             </p>
             <h4>
-                Overview of MCL at each time step:
+                Outline of the MCL algorithm at each time step
             </h4>
+
             <ol>
                 <li>
-                    If the robot moves, the algorithm <b>update each particle's location and direction
-                    according to the robot's motion</b>(robots often have internal motion sensors that can
-                    tell how much the robot has moved approximately). When updating, <u>uncertainties
-                    of motion readings must be taken into account</u>
+                    If the robot moves, the algorithm <b>updates each particle's location and direction
+                    according to the robot's motion</b>. When updating, <u>uncertainties
+                    of motion readings are also taken into consideration.</u>
                 </li>
                 <li>
-                    If the robot performed a scan of the environment, <b>update each particle's
+                    If the robot has performed a scan of the environment, the algorithm <b>updates each particle's
                     weight</b> according to the sensor readings.
-                    The new weight should be associated with <u>how likely the robot is at this
-                    location given the scanned data</u>.
+                    The new weight is associated with <u>the probability that the robot is at the particle's location given the scanned data</u>.
                 </li>
                 <li>
                     Create a new set of particles with equal size by selecting particles from the old set
                     according to the weights of the particles. Particles with higher weights are more likely
-                    to be selected. This is called the <b>resampling process</b>.
-                </li>
-                <li>
-                    If all particles are clustered around a small region, that should be a good bet
-                    of where the robot actually is.
+                    to be selected. This is called the <b>resampling process</b>. If all particles are clustered around a small region after resampling, it is likely that the robot's location is within the region.
                 </li>
             </ol>
             <br/>
+            <p>
+                Experiment with MCL's performance in the demo below and compare the robot's localization performance with the demos above. Even at higher levels of noise, the MCL algorithm is able to provide a good estimate of the robot's location on the map, and is able to account for errors during motion and sensing. Furthermore, unlike the earlier demos, performance doesn't degrade significantly over time - the predicted region remains fairly small over time. 
+            </p>
         </div>
     </div>
     <div class='row'>
