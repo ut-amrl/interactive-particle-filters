@@ -91,21 +91,17 @@
     <div class="row">
         <div class="col l12">
             <p>
-                Autonomous mobile robots need an understanding of where they are in the environment they are operating in.
-                When outdoors GPS can be used to get the position, but in many robotics domains this is not possible.
-                For indoor or underwater environments, or search and rescue scenarios, the designers operate under the
-                assumption that GPS cannot be used to determine the robots position. Instead, the robot's position must
-                be determined using its sensors in a process known as <b>localization</b>.
+                Autonomous mobile robots need an understanding of <em>where</em> they are in the environment they are operating in, to perform tasks accurately. The problem of figuring out where the robot is in the environment, is called <em>mobile robot localization</em>. At first glance, using a GPS reciever might seem like an easy solution to the localization problem, but 1) GPS is not always available since the robot could be operating indoors, or  occluded by buildings outdoors; and 2) even when available, GPS is not sufficiently accurate for precise navigation planning.
+                Instead, the robot must rely on its on-board sensors such as LIDAR, vision cameras, and wheel odometers to solve the localization problem.
             </p>
             <p>
                 If sensors and robotic movement were perfect, localization would be an easy problem. In the real world
-                however, there are lots of small errors in sensing and movement that lead to <b>uncertainty</b> about
+                however, there are lots of small errors in sensing and movement that lead to <em>uncertainty</em> about
                 the true position of the robot. In order to overcome this uncertainty and estimate the the true position
                 of the robot, we need to be able to quantify the error and account for it.
             </p>
             <p>
-                In this page, we discuss the sources of uncertainty in robotic movement and sensing through illustrative examples.
-                We use these examples to build up to one popular algorithm for mobile robot localization called a <b>Particle Filter</b>.
+                In this page, we first discuss the sources of uncertainty in robotic movement and sensing through illustrative examples, and then use these examples to build up to a popular algorithm for mobile robot localization called <b>Monte-Carlo Localization</b>, or particle filtering.
             </p>
         </div>
     </div>
@@ -165,7 +161,7 @@
                     <span class="card-title">E1</span>
                     <p>
                         When the robot is commanded to rotate by a certain angle, the true rotation of the robot might
-                        differ what was commanded.
+                        differ from what was commanded.
                     </p>
                 </div>
                 <div class="card-action">
@@ -361,7 +357,7 @@
             <p>
                 We can put these motion models together to create a simulation of a robots motion.
                 In this demo, a robot is asked to follow a fixed
-                trajectory(shown as the green path) in an indoor office building. The blue outlines are simulated
+                trajectory (shown as the green path) in an indoor office building. The blue outlines are simulated
                 outcomes of the robot’s location over time. Note how the simulated outcomes
                 diverge over time. You may adjust the magnitude of each type of motion error, and see how it affects the
                 outcomes.
@@ -448,11 +444,8 @@
     <div class="row">
         <div class="col l12 s12">
             <p>
-                In the demos above, we have demonstrated that while it is true that actual motion will not match the planned
-                motion, we can simulate many possible outcomes. We do not know the exact location of the robot but we can
-                simulate the distribution of possible outcomes. Using the motion model alone is not sufficient as the mean
-                will tend towards the planned motion rather than the actual motion. In order to actually localize, we 
-                need to use additional information about the position. This extra information comes in the form of sensor readings.
+                In the demos above, we have demonstrated that while the actual motion may not match the planned
+                motion, we can <em>simulate</em> many possible outcomes. We do not know the exact location of the robot, but we can use the <em>distribution</em> of the possible outcomes, along with additional sensing, to estimate the most likely set of outcomes. This extra information comes in the form of sensor readings.
             </p>
         </div>
     </div>
@@ -463,11 +456,8 @@
         <div class="col l12 s12">
             <h4>Sensing and Laser Range Finders</h4>
             <p>
-                Because a robot cannot determine its location by simply integrating its wheel motion or commands alone,
-                additional information is needed to extract the true location. This information comes from sensor readings.
-                There are a wide variety of sensors that are used in mobile robotics. Cameras, sonars, gyroscopes, lasers, 
-                and Wi-Fi antennae have all been used to aid in localization. One common kind of sensor is a range finder,
-                a sensor that determines the distance of an obstacle from the sensor. Range finders on robots are usually lasers
+                There are a wide variety of sensors that are used by mobile robots. Cameras, SONAR, LIDAR, RADAR, and even Wi-Fi signals have been used to aid in mobile robot localization. One common kind of sensor is LIDAR,
+                a sensor that uses the round-trip time of laser beams to estimate the distance of a obstacles from the sensor. Range finders on robots are usually lasers
                 though sonars are also sometimes used. Both of these are time of flight sensors which operate by sending out a
                 signal (a laser beam or sonar pulse) and recording how long it took for the signal to bounce off an obstacle and
                 return. Most of the time, these sensors have a minimum and maximum effective range.
