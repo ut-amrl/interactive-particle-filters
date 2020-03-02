@@ -1,4 +1,4 @@
-# Interactive Algorithms
-A series of interactive explanations for robotics algorithms.
+# Interactive Particle Filters
+An interactive explanation for particle filters
 
-Live site: https://umass-amrl.github.io/interactive-algorithms/
+Live site: https://amrl.cs.utexas.edu/interactive-particle-filters/
